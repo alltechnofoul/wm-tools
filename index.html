@@ -606,19 +606,19 @@
     <div class="totals">
       <div class="total-row">
         <span>Subtotal</span>
-        <span id="calc-subtotal">$0</span>
+        <span id="calc-subtotal" contenteditable="true">$0</span>
       </div>
       <div class="total-row">
         <span>Deposit due to begin (50%)</span>
-        <span id="calc-deposit">$0</span>
+        <span id="calc-deposit" contenteditable="true">$0</span>
       </div>
       <div class="total-row">
         <span>Balance due at launch (50%)</span>
-        <span id="calc-balance">$0</span>
+        <span id="calc-balance" contenteditable="true">$0</span>
       </div>
       <div class="total-row main">
         <span class="total-label">Total</span>
-        <span id="calc-total">$0</span>
+        <span id="calc-total" contenteditable="true">$0</span>
       </div>
     </div>
 
@@ -761,8 +761,11 @@
     document.getElementById('calc-balance').textContent = fmt(sum / 2);
   }
 
-  // Auto-save and recalc on every edit
-  document.addEventListener('input', () => { save(); calcTotals(); });
+  // Auto-save on every edit; recalc only when line items change
+  document.addEventListener('input', e => {
+    save();
+    if (e.target.closest('#items-container')) calcTotals();
+  });
 
   // Load saved state on open, then recalc
   load();
